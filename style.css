@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.app {
+    width: 400px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.campo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.campo label {
+    width: 140px;
+    font-size: 14px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 4px;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 4px;
+    text-align: center;
+}
+
+table th {
+    background: #eee;
+}
+
+.resultado {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+h3 {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.extra {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 5px;
+}
+
+.extra input {
+    padding: 4px;
+    font-size: 13px;
+}
+
+.extra input.nome {
+    width: 45%;
+}
+
+.extra input.valor {
+    width: 30%;
+}
+
+.extra input.qtd {
+    width: 25%;
+}
