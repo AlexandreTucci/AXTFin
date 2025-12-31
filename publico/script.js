@@ -29,12 +29,16 @@
 
   // --- Funções de cálculo centralizadas (fáceis de testar/migrar) ---
   /**
-   * Calcula o total das despesas
+   * Calcula o total das despesas (considerando quantidade de repetições)
    * @param {Array} despesas
    * @returns {number}
    */
   function calcularTotalDespesas(despesas) {
-    return despesas.reduce((acc, d) => acc + Number(d.valor || 0), 0);
+    return despesas.reduce((acc, d) => {
+      const valor = Number(d.valor || 0);
+      const qtd = Number(d.quantidade || 1) || 0;
+      return acc + (valor * qtd);
+    }, 0);
   }
 
   /**
@@ -98,7 +102,13 @@
       const parsed = JSON.parse(raw);
       // Validação mínima
       estado.renda = Number(parsed.renda) || 0;
-      estado.despesas = Array.isArray(parsed.despesas) ? parsed.despesas : [];
+      estado.despesas = Array.isArray(parsed.despesas) ? parsed.despesas.map(d => ({
+        id: d.id || uid(),
+        nome: d.nome || '',
+        valor: Number(d.valor) || 0,
+        quantidade: Number(d.quantidade) || 1,
+        categoria: d.categoria || 'Outros'
+      })) : [];
     } catch (e) {
       console.warn('Falha ao carregar estado do LocalStorage.', e);
     }
@@ -131,7 +141,24 @@
       // manter campo textual com entrada do usuário (não substituímos agora)
     });
     valorInput.addEventListener('blur', () => {
-      valorInput.value = Number(despesa.valor || 0).toFixed(2).replace('.', ',');
+      const nv = parseInputNumber(valorInput.value);
+      valorInput.value = nv.toFixed(2).replace('.', ',');
+    });
+
+    // quantidade (nº de vezes que a despesa se repete no período)
+    const qtdInput = document.createElement('input');
+    qtdInput.type = 'number';
+    qtdInput.min = '0';
+    qtdInput.step = '1';
+    qtdInput.value = String(despesa.quantidade || 1);
+    qtdInput.className = 'qtd-input';
+    qtdInput.addEventListener('input', () => {
+      const q = parseInt(qtdInput.value, 10);
+      atualizarDespesa(despesa.id, { quantidade: Number.isNaN(q) ? 0 : q });
+    });
+    qtdInput.addEventListener('blur', () => {
+      const q = parseInt(qtdInput.value, 10);
+      qtdInput.value = String(Number.isNaN(q) ? 0 : q);
     });
 
     // categoria
@@ -160,6 +187,7 @@
     // Acomoda elementos
     wrapper.appendChild(nomeInput);
     wrapper.appendChild(valorInput);
+    wrapper.appendChild(qtdInput);
     wrapper.appendChild(categoriaSelect);
     wrapper.appendChild(btnRemover);
 
@@ -195,7 +223,12 @@
   function montarTooltip({ renda, total, despesas, saldo }) {
     // Conteúdo com fórmula e lista de despesas
     const formula = `Saldo = Renda (${formatCurrency(renda)}) - Total Despesas (${formatCurrency(total)}) = ${formatCurrency(saldo)}`;
-    const lista = despesas.length ? despesas.map(d => `<li>${escapeHtml(d.nome || '(sem nome)')} — ${formatCurrency(d.valor || 0)} (${escapeHtml(d.categoria || 'Outros')})</li>`).join('') : '<li>(nenhuma despesa)</li>';
+    const lista = despesas.length ? despesas.map(d => {
+      const qtd = Number(d.quantidade || 1);
+      const valor = Number(d.valor || 0);
+      const subtotal = valor * qtd;
+      return `<li>${escapeHtml(d.nome || '(sem nome)')} — ${formatCurrency(valor)} × ${qtd} = ${formatCurrency(subtotal)} (${escapeHtml(d.categoria || 'Outros')})</li>`;
+    }).join('') : '<li>(nenhuma despesa)</li>';
 
     el.tooltip.innerHTML = `
       <div><strong>Fórmula</strong></div>
@@ -218,6 +251,7 @@
       id: uid(),
       nome: dados.nome || '',
       valor: Number(dados.valor) || 0,
+      quantidade: Number(dados.quantidade) || 1,
       categoria: dados.categoria || 'Outros'
     };
     estado.despesas.push(nova);
