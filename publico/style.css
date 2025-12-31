@@ -52,7 +52,7 @@ header h1 { font-size: 1.6rem; margin-bottom: 4px; }
 input[type="text"] {
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #e6e9ef;
+  border: 1px solid #ccdbd0;
   font-size: 1rem;
   background: #fff;
 }
@@ -61,27 +61,57 @@ input[type="text"] {
 /* Lista de despesas */
 .lista { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
 .item-despesa {
-  display: grid;
-  grid-template-columns: 1fr 110px 70px 110px 120px 56px; /* nome | valor | qtd | subtotal | categoria | remover */
-  gap: 8px;
-  align-items: center;
-  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
   border-radius: 8px;
-  border: 1px solid #eef1f6;
+  border: 1px solid #ccdbd0;
   background: #fff;
+  min-height: 72px;
 }
+.item-despesa .row-top { width: 100%; }
+.item-despesa .row-top input[type="text"] { width: 100%; }
+.item-despesa .row-controls { display:flex; gap:16px; align-items:center; width:100%; }
+.item-despesa .row-controls .btn.secondary { margin-left: 0; }
+.item-despesa .subtotal { font-weight:700; }
+/* Aumenta a área clicável do select e do input de valor */
+.item-despesa input[type="text"], .item-despesa select {
+  padding: 14px;
+}
+.item-despesa select { min-width: 96px; cursor: pointer; }
+.item-despesa .base-select { min-width: 140px; }
+.item-despesa .ref-select { min-width: 240px; }
+.item-despesa .qtd-input { min-width: 92px; }
+.item-despesa .valor-input { min-width: 160px; text-align: right; }
+/* unidade percentual ao lado do input */
+.item-despesa .unit {
+  color: #6b7280;
+  padding-right: 6px;
+  min-width: 20px;
+  text-align: right;
+}
+.item-despesa select { min-width: 56px; padding:6px; border-radius:6px; transition: all .12s ease; }
+.item-despesa select.is-percent { background: #fff7ed; border-color: #ccdbd0; color: #92400e; font-weight:700; box-shadow: 0 4px 12px rgba(245,158,11,0.08); }
+.item-despesa .valor-wrap { display:flex; align-items:center; gap:6px; }
+.item-despesa .unit { transition: all .12s ease; }
+.item-despesa .unit.unit--active { color: #92400e; font-weight:700; font-size: .98rem; }
+.item-despesa .valor-wrap.percent-active { background: rgba(245,158,11,0.03); border-radius:6px; padding:2px 4px; }
+/* campo para inserir valor base (só aparece para percentuais) */
+.base-value-input { min-width: 140px; padding: 10px; border-radius:6px; border:1px solid #ccdbd0; }
+.base-value-input[style*="display: none"] { display: none !important; }
 .item-despesa .qtd-input {
   min-width: 60px;
   text-align: center;
   padding: 8px;
   border-radius: 6px;
-  border: 1px solid #e6e9ef;
+  border: 1px solid #ccdbd0;
   background: #fff;
 }
 .item-despesa input[type="text"], .item-despesa select {
   padding: 8px;
   border-radius: 6px;
-  border: 1px solid #e6e9ef;
+  border: 1px solid #ccdbd0;
   background: #fff;
   width: 100%;
 }
@@ -118,7 +148,7 @@ input[type="text"] {
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 6px 18px rgba(16,24,40,0.12);
-  border: 1px solid #e6e9ef;
+  border: 1px solid #63f082;
   color: #111827;
   display: none;
   z-index: 20;
@@ -131,10 +161,12 @@ input[type="text"] {
 
 @media (max-width: 780px) {
   .resumo-grid { grid-template-columns: repeat(2,1fr); }
-  .item-despesa { grid-template-columns: 1fr 100px 60px 100px 100px 44px; }
+  .item-despesa { padding: 12px; gap: 8px; }
+  .item-despesa .row-controls { gap: 12px; flex-wrap: wrap; }
 }
 @media (max-width: 480px) {
   .resumo-grid { grid-template-columns: 1fr; }
-  .item-despesa { grid-template-columns: 1fr; gap: 6px; }
-  .item-despesa .acoes-compact { display: flex; gap: 8px; }
+  .item-despesa { padding: 10px; gap: 8px; }
+  .item-despesa .row-controls { flex-direction: column; align-items: stretch; }
+  .item-despesa .row-controls .ref-select { min-width: 100%; }
 }
