@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Controle Financeiro Pessoal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Controle Financeiro Pessoal</h1>
+      <p class="sub">Página estática — tudo salvo localmente no seu navegador</p>
+    </header>
+
+    <section class="painel resumo" aria-labelledby="resumo-title">
+      <h2 id="resumo-title">Resumo</h2>
+      <div class="resumo-grid">
+        <div class="card">
+          <label for="input-renda">Renda mensal</label>
+          <input id="input-renda" type="text" inputmode="decimal" aria-label="Renda mensal" />
+          <small class="hint">Digite o valor antes dos centavos: ex. 3500.50</small>
+        </div>
+
+        <div class="card">
+          <span class="label">Total de despesas</span>
+          <div id="total-despesas" class="valor">R$ 0,00</div>
+        </div>
+
+        <div class="card">
+          <span class="label">Saldo restante</span>
+          <div id="saldo-restante" class="valor tooltip-target" tabindex="0" aria-describedby="tooltip">
+            R$ 0,00
+            <div id="tooltip" role="tooltip" class="tooltip" aria-hidden="true">
+              <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label">Percentual comprometido</span>
+          <div id="percentual" class="valor">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="painel despesas" aria-labelledby="despesas-title">
+      <h2 id="despesas-title">Despesas</h2>
+
+      <div id="lista-despesas" class="lista">
+        <!-- itens dinâmicos -->
+      </div>
+
+      <div class="acoes">
+        <button id="btn-nova-despesa" class="btn">+ Nova despesa</button>
+      </div>
+    </section>
+
+    <footer class="rodape">
+      <small>Dados salvos automaticamente no LocalStorage do navegador.</small>
+    </footer>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

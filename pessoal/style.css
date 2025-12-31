@@ -1,0 +1,141 @@
+* { box-sizing: border-box; }
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.app {
+    max-width: 420px;
+    width: 100%;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.campo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.campo label {
+    min-width: 110px;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.campo input {
+    flex: 1;
+    padding: 6px;
+    font-size: 14px;
+    min-width: 0;
+} 
+
+button {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 4px;
+    text-align: center;
+}
+
+table th {
+    background: #eee;
+}
+
+.resultado {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+h3 {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.extra {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.extra input {
+    padding: 6px;
+    font-size: 13px;
+}
+
+.extra input.nome {
+    flex: 1 1 45%;
+}
+
+.extra input.valor {
+    flex: 0 0 30%;
+    min-width: 80px;
+}
+
+.extra input.qtd {
+    flex: 0 0 25%;
+    min-width: 60px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin-top: 8px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    .campo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .campo label {
+        margin-bottom: 4px;
+        min-width: auto;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    table th,
+    table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
