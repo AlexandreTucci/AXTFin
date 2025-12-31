@@ -138,6 +138,9 @@
       // permitir vírgula
       const nv = parseInputNumber(valorInput.value);
       atualizarDespesa(despesa.id, { valor: nv });
+      // atualizar subtotal visual imediatamente
+      const qv = Number(qtdInput.value) || 0;
+      subtotalDiv.textContent = formatCurrency(nv * qv);
       // manter campo textual com entrada do usuário (não substituímos agora)
     });
     valorInput.addEventListener('blur', () => {
@@ -154,7 +157,11 @@
     qtdInput.className = 'qtd-input';
     qtdInput.addEventListener('input', () => {
       const q = parseInt(qtdInput.value, 10);
-      atualizarDespesa(despesa.id, { quantidade: Number.isNaN(q) ? 0 : q });
+      const finalQ = Number.isNaN(q) ? 0 : q;
+      atualizarDespesa(despesa.id, { quantidade: finalQ });
+      // atualizar subtotal visual
+      const vv = parseInputNumber(valorInput.value) || 0;
+      subtotalDiv.textContent = formatCurrency(vv * finalQ);
     });
     qtdInput.addEventListener('blur', () => {
       const q = parseInt(qtdInput.value, 10);
@@ -174,6 +181,12 @@
       atualizarDespesa(despesa.id, { categoria: categoriaSelect.value });
     });
 
+    // subtotal (valor × quantidade)
+    const subtotalDiv = document.createElement('div');
+    subtotalDiv.className = 'subtotal';
+    const initialSubtotal = (Number(despesa.valor || 0) * Number(despesa.quantidade || 1));
+    subtotalDiv.textContent = formatCurrency(initialSubtotal);
+
     // botão remover
     const btnRemover = document.createElement('button');
     btnRemover.className = 'btn secondary';
@@ -184,10 +197,11 @@
       removerDespesa(despesa.id);
     });
 
-    // Acomoda elementos
+    // Acomoda elementos (inclui subtotal)
     wrapper.appendChild(nomeInput);
     wrapper.appendChild(valorInput);
     wrapper.appendChild(qtdInput);
+    wrapper.appendChild(subtotalDiv);
     wrapper.appendChild(categoriaSelect);
     wrapper.appendChild(btnRemover);
 
@@ -266,6 +280,17 @@
     estado.despesas[idx] = Object.assign({}, estado.despesas[idx], campos);
     salvarEstado();
     atualizarResumo();
+
+    // Atualiza subtotal na linha correspondente, se presente
+    const row = document.querySelector(`.item-despesa[data-id="${id}"]`);
+    if (row) {
+      const subtotalEl = row.querySelector('.subtotal');
+      if (subtotalEl) {
+        const d = estado.despesas[idx];
+        const subtotal = Number(d.valor || 0) * Number(d.quantidade || 1);
+        subtotalEl.textContent = formatCurrency(subtotal);
+      }
+    }
   }
 
   function removerDespesa(id) {
