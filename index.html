@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Controle Financeiro</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -35,6 +36,7 @@
     <button onclick="calcular()">Calcular</button>
 
     <!-- Tabela -->
+    <div class="table-wrap">
     <table>
         <thead>
             <tr>
@@ -46,6 +48,7 @@
         </thead>
         <tbody id="tabela"></tbody>
     </table>
+    </div>
 
     <div class="resultado" id="total">Total: R$ 0,00</div>
     <div class="resultado" id="restante">Restante: R$ 0,00</div>
